@@ -3,7 +3,6 @@
     <div class="bc-body bc-ppt-content">
       <div class="bc-ppt-area" @scroll="handleScroll">
         <div class="bc-ppt-image-wrapper" v-for="item in pptData" :index="item.index" :key="item.index">
-          {{item.index}}
           <img class="ppt-content" width="100%"
                :src="item.img"
                :alt="item.alt">
@@ -177,7 +176,7 @@
       }
       .bc-ppt-image-wrapper {
         position: relative;
-        padding-bottom: 51%;
+        padding-bottom: 56.25%;
         .ppt-content {
           position: absolute;
           left: 0;

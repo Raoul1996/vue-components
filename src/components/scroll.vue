@@ -76,12 +76,13 @@
     data: function() {
       return {
         pptData: pptData,
-        index: 0
+        index: 0,
+        scroll: undefined,
+        down: false
       }
     },
     watch: {
       index(val, old) {
-        console.log(val, old);
         this.activeLink(val)
       }
     },
@@ -108,7 +109,8 @@
       _calcPos: function(val, div, gap) {
         let ceil = Math.ceil(val / div);
         let floor = Math.floor(val / div);
-        return ceil - val / div < gap ? ceil : floor
+        let res = ceil - val / div < gap ? ceil : floor;
+        return res;
       },
       /**
        * 设置 Scroll 值，根据 page 进行 scroll 值计算
@@ -125,7 +127,7 @@
         let oLine = pptEl.querySelector('.link-line');
         let wrapperHeight = pptEl.querySelector('.link-wrapper').clientHeight;
         oLine.style.height = (pptEl.querySelector('.link-wrapper').clientHeight - 10) + 'px';
-        let gap = wrapperHeight / (oLink.length - 1) > 56 ? (wrapperHeight - 20) / (oLink.length - 1) - 20 : 40
+        let gap = wrapperHeight / (oLink.length - 1) > 56 ? (wrapperHeight - 20) / (oLink.length - 1) - 20 : 40;
         oLink && oLink.length && oLink.forEach(function(value, index) {
           if (index) {
             value.style.marginTop = gap + 'px';
@@ -134,11 +136,11 @@
       },
       handleScroll: function(e) {
         let pptEl = this.$el.querySelector('.bc-ppt-content');
-        let oPPT = pptEl.querySelector('.bc-ppt-area');
+        let scroll = pptEl.querySelector('.bc-ppt-area').scrollTop;
         let imgWrapper = pptEl.querySelector('.bc-ppt-image-wrapper');
         let img = imgWrapper.querySelector('img');
-        let index = this._calcPos(oPPT.scrollTop, img.clientHeight + 40, 0.05);
-        this.index = index;
+        this.index = +this._calcPos(scroll, img.clientHeight + 40, 0.05);
+        this.scroll = scroll
       },
       activeLink: function(id) {
         let pptEl = this.$el.querySelector('.bc-ppt-content');
